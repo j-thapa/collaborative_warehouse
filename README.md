@@ -66,13 +66,14 @@ Note that R directly affects the difficulty of the environment. A small R, espec
 # Installation
 
 ```sh
-git clone git@github.com:uoe-agents/robotic-warehouse.git
-cd robotic-warehouse
+git clone https://github.com/j-thapa/collaborative_warehouse.git
+cd collaborative_warehouse
 pip install -e .
 ```
 
 # Getting Started
 
+Here is a simple code example briefing how CWarehouse can be used. In this example, both agents has random policies which selects an action when observation is received.
 
 ```python
 from cwarehouse.warehouse_env import WarehouseMultiEnv
@@ -95,7 +96,6 @@ for e in range(n_episodes):
     while not terminated:
         obs = env.get_obs()
         state = env.get_state()
-        # env.render()  # Uncomment for rendering
 
         actions = []
         for agent_id in range(n_agents):
