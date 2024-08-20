@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: cwarehouse
-Version: 0.1
-Summary: Collaborative warehouse
-Classifier: Intended Audience :: Developers
-Classifier: Programming Language :: Python :: 3.10.9
-Requires-Dist: numpy
-Requires-Dist: gym
