@@ -6,8 +6,8 @@ import numpy as np
 
 from .multiagentenv import MultiAgentEnv
 
-
-
+import matplotlib
+import matplotlib.pyplot as plt
 
 import gym
 import numpy as np
@@ -20,7 +20,7 @@ import sys
 from .gridworld.items import ItemKind, ItemBase, ItemKind_onehot, ItemKind_encode
 
 
-
+import matplotlib.pyplot as plt
 
 
 from .gridworld.examples.warehouse_game import WarehouseGame
@@ -297,7 +297,15 @@ class WarehouseMultiEnv(MultiAgentEnv):
 
         return local_obs, global_state, available_actions
 
+    def save_image(self):
+        img =self.render(mode="rgb_array", image_observation= True)
 
+        fig, ax = plt.subplots()
+        mpl_img = ax.imshow(img)
+        mpl_img.set_data(img)
+        fig.canvas.draw()
+        plt.savefig("test_img.jpg")
+        plt.close()
    
 
 

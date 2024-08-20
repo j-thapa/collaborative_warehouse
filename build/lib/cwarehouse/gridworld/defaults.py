@@ -2,7 +2,8 @@ import numpy as np
 from typing import List
 from .items import ItemKind, ItemKind_encode, ItemKind_onehot
 from . import art
-
+import matplotlib
+import matplotlib.pyplot as plt
 
 DEFAULT_COLORS = {
     "#": (127, 127, 127),
