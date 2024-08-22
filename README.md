@@ -3,11 +3,6 @@
  <p align="center">A multi-agent reinforcement learning environment</p>
 </p>
 
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
-
-
-
 <h1>Table of Contents</h1>
 
 - [Environment Description](#environment-description)
@@ -55,12 +50,37 @@ Below is an illustration of collaborative warehouse with its elements; two pairs
 
 
 ## Configurable Environment parameters
+The parameters that can be configured to create the collborative warehouse environment are
+
+    Parameters:
+        seed (int): Seed for random number generation to ensure reproducibility. 
+                    Default is 42, which helps in debugging by maintaining consistent behavior.
+        pair_agents (int): Specifies the number of pairs of agents in the environment.
+                           A pair of agents consist a driver and a driven agent. Default is 1.
+        num_objects (int): Defines the number of objects placed within the environment.
+                           Default is 1.
+        grid_shape (tuple): Specifies the dimensions of the grid that forms the environment.
+                            Tuple format is (width, height). Default is (10, 10).
+        partial_observation (bool): When set to True, agents receive only a partial view
+                                    of the entire environment, simulating limited visibility.
+                                    Default is True.
+        max_steps (int): Sets the limit on the number of steps an agent can take in one episode.
+                         This is used to prevent infinite loops.
+                         Default is 100.
+        deterministic (bool): Determines whether the environment operates in a deterministic
+                              manner. When True, one have to select every grid position for the elements. Default is False.
+        image_observation (bool): If set to True, the agent's observations are returned as images, sends full gridworld image
+                                  typically used in vision-based learning models. Default is False.
+        action_masking (bool): Enables the prevention of invalid actions by the agent, typically
+                               used to simplify the learning problem by reducing the space of
+                               possible actions. Default is True.
+ 
 
 
 ## Action Space
 Agents have the following discrete action space:
 
-A={ Left, Right, Down, Up, Pick/Drop, Do nothing }
+A=[ Left, Right, Up, Downn, Pick/Drop, Do nothing ]
 
 When the agent is not attached; pick action is available, when the agent is attached to an object; drop action is available.
 
