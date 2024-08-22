@@ -1,5 +1,5 @@
 <p align="center">
- <img width="350px" src="docs/img/rware.png" align="center" alt="Multi-Robot Warehouse (RWARE)" />
+ <img width="350px" src="assets/cwarehouse.png" align="center" alt="Collaborative Warehousehouse (CWarehouse)" />
  <p align="center">A multi-agent reinforcement learning environment</p>
 </p>
 
@@ -47,10 +47,10 @@ driver and driven agents. An episode ends when all objects are dropped in the go
 if the episode length exceeds a specified maximum episode length.
 
 
-Below is an illustration of a small (10x20) warehouse with four trained agents. Agents have been trained with the SEAC algorithm [[2](#please-cite)]. This visualisation can be achieved using the `env.render()` function as described later.
+Below is an illustration of collaborative warehouse with its elements; two pairs of driver and driven agent. 
 
 <p align="center">
- <img width="450px" src="docs/img/rware.gif" align="center" alt="Multi-Robot Warehouse (RWARE) illustration" />
+ <img width="450px" src="assets/cwarehouse_elements.png" align="center" alt="Elements of collaborative warehouse" />
 </p>
 
 
