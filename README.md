@@ -11,6 +11,7 @@
 <h1>Table of Contents</h1>
 
 - [Environment Description](#environment-description)
+  - [Configurable Environment parameter](#parameters-like)
   - [Observation Space](#observation-like)
   - [Action Space](#action-space)
   - [Rewards](#rewards)
@@ -24,9 +25,26 @@
 
 # Environment Description
 
-The multi-robot warehouse (RWARE) environment simulates a warehouse with robots moving and delivering requested goods. The simulator is inspired by real-world applications, in which robots pick-up shelves and deliver them to a workstation. Humans access the content of a shelf, and then robots can return them to empty shelf locations.
-
-The environment is configurable: it allows for different sizes (difficulty), number of agents, communication capabilities, and reward settings (cooperative/individual). Of course, the parameters used in each experiment must be clearly reported to allow for fair comparisons between algorithms.
+Collaborative Warehouse (CWarehouse) is a gridworld-based multi-agent reinforcement learning environment
+built on OpenAI Gym. The grid world represents a physical warehouse
+consisting of objects, designated goal regions for those objects, and robotic agents. The
+objective in the CWarehouse environment is for these agents to pick up and move objects
+to the goal area. The agents are of two kinds: driver and driven agents. When an episode
+starts, a number of objects, agents, and goals are scattered randomly in the grid area.
+The driver and driven agents have to navigate towards an object, pick it up, and together
+move the object to a goal cell and drop the object in the goal cell. This process has to be
+completed for all the objects, leading to a successful episode when all objects have been
+transferred and dropped in the goal cells.
+Initially, both the driver and driven agents move towards an object to pick it up. Once
+the object is attached to both agents, the attached driven agent ceases all actions. The
+composite object (comprising the attached object, attached driven agent, and driver
+agent) is then moved by the action choices of the attached driver agent, which drives the
+composite object to a goal area and drops the attached object there. When an attached
+object is dropped in the goal cell, it becomes immovable, and both attached driver and
+driven agents become free. They can then navigate and repeat the process with other
+objects. An object can only be attached and moved when it is picked up by both the
+driver and driven agents. An episode ends when all objects are dropped in the goal or
+if the episode length exceeds a specified maximum episode length.
 
 
 Below is an illustration of a small (10x20) warehouse with four trained agents. Agents have been trained with the SEAC algorithm [[2](#please-cite)]. This visualisation can be achieved using the `env.render()` function as described later.
@@ -36,31 +54,32 @@ Below is an illustration of a small (10x20) warehouse with four trained agents. 
 </p>
 
 
+## Configurable Environment parameters
+
+
 ## Action Space
-In this simulation, robots have the following discrete action space:
+Agents have the following discrete action space:
 
-A={ Turn Left, Turn Right, Forward, Load/Unload Shelf }
+A={ Left, Right, Down, Up, Pick/Drop, Do nothing }
 
-The first three actions allow each robot only to rotate and move forward. Loading/Unloading only works when an agent is beneath a shelf on one of the predesignated locations.
+When the agent is not attached; pick action is available, when the agent is attached to an object; drop action is available.
 
 ## Observation Space
-The observation of an agent is partially observable and consists of a 3x3 (configurable) square centred on the agent. Inside this limited grid, all entities are observable:
-- The location, the rotation and whether the agent is carrying a shelf.
-- The location and rotation of other robots.
-- Shelves and whether they are currently in the request queue.
+There is an option for partial or fully observable and also image or vector observation. Image observation always give full observation of the grid.
+In case of partial observation agent gets a partially observable vector observation. The observation also includes information about its position in the grid, whether the agent itself is a driver or driven, attached or not, and further details about attachable objects and free goal cells. The observation is limited to a partial grid area with the agent at its center. By default, a 3x3 grid area is partially observable with the agent at the center. Other agents and their information are only known by the agent if they are within this grid area.
+
+
 - 
 ## Rewards
-At each time a set number of shelves R is requested. When a requested shelf is brought to a goal location, another shelf is uniformly sampled and added to the current requests. Agents are rewarded for successfully delivering a requested shelf to a goal location, with a reward of 1. A significant challenge in these environments is for agents to deliver requested shelves but also finding an empty location to return the previously delivered shelf. Having multiple steps between deliveries leads a very sparse reward signal.
-
-# Configurable parameters
-
-The multi-robot warehouse task is parameterised by:
-
-- The size of the warehouse which is preset to either tiny (10x11), small (10x20), medium (16x20), or large (16x29).
-- The number of agents N.
-- The number of requested shelves R. By default R=N, but easy and hard variations of the environment use R = 2N and R = N/2, respectively.
-
-Note that R directly affects the difficulty of the environment. A small R, especially on a larger grid, dramatically affects the sparsity of the reward and thus exploration: randomly bringing the correct shelf becomes increasingly improbable.
+There is a two-step reward system for the agents. When an object is successfully picked up by both
+agents (i.e., driver and driven), they each receive a reward of 0.75. If the attached object
+is successfully dropped in the goal, both agents receive a high reward of 1.25. There is
+also a penalty of -0.01 for move failures. Move failures refer to action choices that agents
+attempt but cannot execute, such as when an agent chooses a action which may result in
+collision with another agent or object. This penalty motivates agents to avoid collisions
+during their movement planning. A small penalty of -0.05 is added for every step, which
+encourages agents to minimize their number of moves. At each step, all these rewards and
+penalties are added for each agent, resulting in the return of that agent for that timestep.
 
 
 # Installation
