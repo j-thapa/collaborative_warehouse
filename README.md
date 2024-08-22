@@ -1,5 +1,5 @@
 <p align="center">
- <img width="350px" src="assets/cwarehouse.png" align="center" alt="Collaborative Warehousehouse (CWarehouse)" />
+ <img width="350px" src="assets/cwarehouse.PNG" align="center" alt="Collaborative Warehousehouse (CWarehouse)" />
  <p align="center">A multi-agent reinforcement learning environment</p>
 </p>
 
@@ -50,7 +50,7 @@ if the episode length exceeds a specified maximum episode length.
 Below is an illustration of collaborative warehouse with its elements; two pairs of driver and driven agent. 
 
 <p align="center">
- <img width="450px" src="assets/cwarehouse_elements.png" align="center" alt="Elements of collaborative warehouse" />
+ <img width="450px" src="assets/cwarehouse_elements.PNG" align="center" alt="Elements of collaborative warehouse" />
 </p>
 
 
