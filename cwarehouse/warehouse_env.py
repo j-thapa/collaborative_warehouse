@@ -49,36 +49,36 @@ class WarehouseMultiEnv(MultiAgentEnv):
                  obstacle=False
                  ):
       
-            """
-    Initialize the simulation environment with configurable settings.
+        """
+Initialize the simulation environment with configurable settings.
 
-    Parameters:
-        seed (int): Seed for random number generation to ensure reproducibility. 
-                    Helps in debugging by maintaining consistent behavior.
-        pair_agents (int): Specifies the number of pairs of agents in the environment.
-                           Each pair of agents can interact within the same space.
-        num_objects (int): Defines the number of objects placed within the environment.
-                           Objects can be interacted with by agents.
-        grid_shape (tuple): Specifies the dimensions of the grid that forms the environment.
-                            Tuple format is (width, height).
-        partial_observation (bool): When set to True, agents receive only a partial view
-                                    of the entire environment, simulating limited visibility.
-        max_steps (int): Sets the limit on the number of steps an agent can take in one episode.
-                         This is used to prevent infinite loops and to benchmark performance.
-        deterministic (bool): Determines whether the environment operates in a deterministic
-                              manner. When False, introduces randomness in agent actions or
-                              environment responses, enhancing complexity.
-        image_observation (bool): If set to True, the agent's observations are returned as images,
-                                  typically used in vision-based learning models.
-        action_masking (bool): Enables the prevention of invalid actions by the agent, typically
-                               used to simplify the learning problem by reducing the space of
-                               possible actions.
-        obstacle (bool): Configures the environment to include obstacles that agents must avoid,
-                         increasing navigation challenges.
+Parameters:
+    seed (int): Seed for random number generation to ensure reproducibility. 
+                Helps in debugging by maintaining consistent behavior.
+    pair_agents (int): Specifies the number of pairs of agents in the environment.
+                        Each pair of agents can interact within the same space.
+    num_objects (int): Defines the number of objects placed within the environment.
+                        Objects can be interacted with by agents.
+    grid_shape (tuple): Specifies the dimensions of the grid that forms the environment.
+                        Tuple format is (width, height).
+    partial_observation (bool): When set to True, agents receive only a partial view
+                                of the entire environment, simulating limited visibility.
+    max_steps (int): Sets the limit on the number of steps an agent can take in one episode.
+                        This is used to prevent infinite loops and to benchmark performance.
+    deterministic (bool): Determines whether the environment operates in a deterministic
+                            manner. When False, introduces randomness in agent actions or
+                            environment responses, enhancing complexity.
+    image_observation (bool): If set to True, the agent's observations are returned as images,
+                                typically used in vision-based learning models.
+    action_masking (bool): Enables the prevention of invalid actions by the agent, typically
+                            used to simplify the learning problem by reducing the space of
+                            possible actions.
+    obstacle (bool): Configures the environment to include obstacles that agents must avoid,
+                        increasing navigation challenges.
 
-    This constructor method sets up the environment based on the parameters provided, which affect
-    the dynamics and operational conditions of the simulation.
-    """
+This constructor method sets up the environment based on the parameters provided, which affect
+the dynamics and operational conditions of the simulation.
+"""
 
 
         self.seed = seed
@@ -202,7 +202,7 @@ class WarehouseMultiEnv(MultiAgentEnv):
 
         self.action_space = [spaces.Discrete(len(self.actions)) for _ in range(self.n_agents)]
 
-        print("+++++ Environment created, observation space is {}".format(self.observation_space))
+        print("+++++ Environment created, number of agents {} observation space is for each agent is {}".format(len(self.observation_space), self.observation_space[0].shape))
         print("+++++ Environment created, action space is {}".format(self.action_space))
         self.reset()
 
@@ -233,21 +233,8 @@ class WarehouseMultiEnv(MultiAgentEnv):
                 
             action_dict_game[agent_obj] = Actions_list[actions[agent_index]] #get move from policy 
 
-            # print("input the action for", agent)
-            # act = input()
-            # print(act)
-            # action_dict_game[agent_obj] = act
-            
-
-  
-                    
-        #print(self.game.step_data.keys())
         self.game.step(action_dict_game)
 
-
-        # print("generate image")
-        # g = input()
-        # self.save_image()
         
         terminateds["__all__"] = self.game.done
 
@@ -373,7 +360,7 @@ class WarehouseMultiEnv(MultiAgentEnv):
         if agent_id % 2 == 0:
             agent_id = f"agent_{agent_id}"
         else:
-            agent_id = f"heuristic_agent_{agent_id}"
+            agent_id = f"driver_agent_{agent_id}"
 
         
 
@@ -483,7 +470,7 @@ class WarehouseMultiEnv(MultiAgentEnv):
         if agent_id % 2 == 0 : #robot agent if even
             agent_obj = self.game.agent_dict[f'agent_{agent_id}']
         else:
-            agent_obj = self.game.agent_dict[f'heuristic_agent_{agent_id}']
+            agent_obj = self.game.agent_dict[f'driver_agent_{agent_id}']
         action_mask = self.gen_action_mask(agent_obj)
         action_mask = np.asarray(action_mask, dtype='float32')
         
@@ -582,10 +569,6 @@ class WarehouseMultiEnv(MultiAgentEnv):
                 adjacent_to_impassable, impassable_item = self.game.is_adjacent_to_impassable("down", agent_obj)
                 if adjacent_to_impassable and (impassable_item != picked_obj):
                     action_mask[3] = 0.
-
-            # print(agent_obj.kind, picked_obj.attachable,picked_obj.carriers )
-            # print("composite objecr heuristic agent selecting move", action_mask)
-            # print("-------------------------")
 
             return action_mask
 

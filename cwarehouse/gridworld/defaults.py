@@ -53,7 +53,7 @@ DEFAULT_SPRITES = {
         ],
         DEFAULT_COLORS,
     ),
-    ItemKind.H_AGENT: art.Sprite.from_text(
+    ItemKind.D_AGENT: art.Sprite.from_text(
         [
             ".bb.",
             "bbbb",
@@ -62,7 +62,7 @@ DEFAULT_SPRITES = {
         ],
         DEFAULT_COLORS,
     ),
-    ItemKind.H_AGENT_ATTACHED: art.Sprite.from_text(
+    ItemKind.D_AGENT_ATTACHED: art.Sprite.from_text(
         [
             ".bb.",
             "bttb",
@@ -91,7 +91,7 @@ DEFAULT_SPRITES = {
     ),
 }
 
-DEFAULT_ORDER = [ItemKind.GOAL, ItemKind.WALL,    ItemKind.OBJECT,  ItemKind.AGENT, ItemKind.H_AGENT, ItemKind.OBJECT_ATTACHED, ItemKind.AGENT_ATTACHED, ItemKind.H_AGENT_ATTACHED]
+DEFAULT_ORDER = [ItemKind.GOAL, ItemKind.WALL,    ItemKind.OBJECT,  ItemKind.AGENT, ItemKind.D_AGENT, ItemKind.OBJECT_ATTACHED, ItemKind.AGENT_ATTACHED, ItemKind.D_AGENT_ATTACHED]
 
 
 

@@ -20,8 +20,8 @@ class ItemKind(IntFlag):
     AGENT = 8   
     OBJECT_ATTACHED = 14
     AGENT_ATTACHED = 18
-    H_AGENT = 9
-    H_AGENT_ATTACHED = 19
+    D_AGENT = 9
+    D_AGENT_ATTACHED = 19
 
 
     def __contains__(self, item):
@@ -40,17 +40,17 @@ class ItemKind_encode():
     AGENT = 8   
     OBJECT_ATTACHED = 14
     AGENT_ATTACHED = 18
-    H_AGENT = 9
-    H_AGENT_ATTACHED = 19
+    D_AGENT = 9
+    D_AGENT_ATTACHED = 19
 
     encoding[ItemKind.WALL] = WALL
     encoding[ItemKind.OBJECT] = OBJECT
     encoding[ItemKind.GOAL] = GOAL
     encoding[ItemKind.AGENT] = AGENT
-    encoding[ItemKind.H_AGENT] = H_AGENT
+    encoding[ItemKind.D_AGENT] = D_AGENT
     encoding[ItemKind.OBJECT_ATTACHED] = OBJECT_ATTACHED
     encoding[ItemKind.AGENT_ATTACHED] = AGENT_ATTACHED
-    encoding[ItemKind.H_AGENT_ATTACHED] = H_AGENT_ATTACHED
+    encoding[ItemKind.D_AGENT_ATTACHED] = D_AGENT_ATTACHED
 
 class ItemKind_onehot():
     """
@@ -66,26 +66,26 @@ class ItemKind_onehot():
     agent = np.zeros(shape=(num_itemkind), dtype='int32')
     object_attached = np.zeros(shape=(num_itemkind), dtype='int32')
     agent_attached = np.zeros(shape=(num_itemkind), dtype='int32')
-    h_agent = np.zeros(shape=(num_itemkind), dtype='int32')
-    h_agent_attached = np.zeros(shape=(num_itemkind), dtype='int32')
+    d_agent = np.zeros(shape=(num_itemkind), dtype='int32')
+    d_agent_attached = np.zeros(shape=(num_itemkind), dtype='int32')
 
     wall[0] = 1
     object_[1] = 1
     goal[2] = 1
     agent[3] = 1
-    h_agent[4] = 1
+    d_agent[4] = 1
     object_attached[5] = 1
     agent_attached[6] = 1
-    h_agent_attached[7] = 1
+    d_agent_attached[7] = 1
 
     encoding[ItemKind.WALL] = wall
     encoding[ItemKind.OBJECT] = object_
     encoding[ItemKind.GOAL] = goal
     encoding[ItemKind.AGENT] = agent
-    encoding[ItemKind.H_AGENT] = h_agent
+    encoding[ItemKind.D_AGENT] = d_agent
     encoding[ItemKind.OBJECT_ATTACHED] = object_attached
     encoding[ItemKind.AGENT_ATTACHED] = agent_attached
-    encoding[ItemKind.H_AGENT_ATTACHED] = h_agent_attached
+    encoding[ItemKind.D_AGENT_ATTACHED] = d_agent_attached
 
     e_WALL = 1
     e_OBJECT = 2
@@ -93,18 +93,18 @@ class ItemKind_onehot():
     e_AGENT = 8   
     e_OBJECT_ATTACHED = 14
     e_AGENT_ATTACHED = 18
-    e_H_AGENT = 9
-    e_H_AGENT_ATTACHED = 19
+    e_D_AGENT = 9
+    e_D_AGENT_ATTACHED = 19
 
     encode_one_hot[0] = np.zeros(shape=(num_itemkind), dtype='int32') #open grid cell
     encode_one_hot[e_WALL] = wall
     encode_one_hot[e_OBJECT] = object_
     encode_one_hot[e_GOAL] = goal
     encode_one_hot[e_AGENT] = agent
-    encode_one_hot[e_H_AGENT] = h_agent
+    encode_one_hot[e_D_AGENT] = d_agent
     encode_one_hot[e_OBJECT_ATTACHED] = object_attached
     encode_one_hot[e_AGENT_ATTACHED] = agent_attached
-    encode_one_hot[e_H_AGENT_ATTACHED] = h_agent_attached
+    encode_one_hot[e_D_AGENT_ATTACHED] = d_agent_attached
 
 
 
@@ -214,7 +214,7 @@ class PickAgent(MoveAgent):
         super().__init__(loc, kind, impassable=impassable)
         
         if "heuristic_agent" in kind:
-            self.kind = ItemKind.H_AGENT
+            self.kind = ItemKind.D_AGENT
             
         else:
             self.kind = ItemKind.AGENT
@@ -254,7 +254,7 @@ class PickAgent(MoveAgent):
 
             if self.kind == ItemKind.AGENT:
 
-                if len(obj.carriers) > 0 and obj.carriers[0].kind != ItemKind.H_AGENT_ATTACHED:
+                if len(obj.carriers) > 0 and obj.carriers[0].kind != ItemKind.D_AGENT_ATTACHED:
                     pass
                 else:
                     self.picked_object = obj
@@ -265,13 +265,13 @@ class PickAgent(MoveAgent):
                     return True
 
 
-            elif self.kind == ItemKind.H_AGENT:
+            elif self.kind == ItemKind.D_AGENT:
 
                 if len(obj.carriers) > 0 and obj.carriers[0].kind != ItemKind.AGENT_ATTACHED:
                     pass
                 else:
                     self.picked_object = obj
-                    self.kind = ItemKind.H_AGENT_ATTACHED
+                    self.kind = ItemKind.D_AGENT_ATTACHED
                     self.picked_object.carriers.append(self)
                     if len(self.picked_object.carriers) > 1:
                         self.picked_object.kind = ItemKind.OBJECT_ATTACHED
@@ -311,8 +311,8 @@ class PickAgent(MoveAgent):
 
             
             self.picked_object.carriers.remove(self)
-            if self.kind == ItemKind.H_AGENT_ATTACHED:
-                    self.kind = ItemKind.H_AGENT
+            if self.kind == ItemKind.D_AGENT_ATTACHED:
+                    self.kind = ItemKind.D_AGENT
             else:
                     self.kind = ItemKind.AGENT
             self.picked_object = None
@@ -335,8 +335,8 @@ class PickAgent(MoveAgent):
                 carrier.picked_object = None
             
                 
-                if carrier.kind == ItemKind.H_AGENT_ATTACHED:
-                    carrier.kind = ItemKind.H_AGENT
+                if carrier.kind == ItemKind.D_AGENT_ATTACHED:
+                    carrier.kind = ItemKind.D_AGENT
                 else:
                     carrier.kind = ItemKind.AGENT
                 

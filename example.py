@@ -7,7 +7,7 @@ import numpy as np
 
 
 
-env = WarehouseMultiEnv(max_steps=10,image_observation=True)
+env = WarehouseMultiEnv(max_steps=10)
 env_info = env.get_env_info()
 
 n_actions = env_info["n_actions"]

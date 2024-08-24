@@ -149,7 +149,7 @@ class WarehouseGame (games.GameBase_multiagent):
             agent = items.PickAgent((-1, -1), kind = agent_id)
 
 
-            # if 'heuristic_agent' in agent_id:
+            # if 'driver_agent' in agent_id:
             #     target_object = np.random.choice(self.non_targets)
             #     agent.target_object = target_object
             #     self.non_targets.remove(target_object)
@@ -215,7 +215,7 @@ class WarehouseGame (games.GameBase_multiagent):
         #assert len(self.agent_ids) == 2
         for agent_id in self.agent_ids:
             if agent_id != 'random_agent':
-                if agent_id == 'heuristic_agent':
+                if agent_id == 'driver_agent':
                     agent_obj = items.PickAgent((7, 1), kind = agent_id) # location of heuristic agent
        
 
@@ -388,7 +388,7 @@ class WarehouseGame (games.GameBase_multiagent):
 
 
             #for now reward only for policy agents
-            # if "heuristic_agent" not in agent:
+            # if "driver_agent" not in agent:
 
                 # TODO skip if agent is attached to the object and the object is also attached
 
@@ -459,7 +459,7 @@ class WarehouseGame (games.GameBase_multiagent):
 
                     # for now if an object is picked sucessfully and it is attached then reward (game_success/n_objects)
                     
-                        # if 'heuristic_agent' not in agent:
+                        # if 'driver_agent' not in agent:
                         if agent_obj.picked_object.attachable != True:
                             # print(" ------ agents have succcessful attachment of the object -----")
                             carriers = [self.get_key_from_value(self.agent_dict, carrier) for carrier in agent_obj.picked_object.carriers]
@@ -473,7 +473,7 @@ class WarehouseGame (games.GameBase_multiagent):
                         step_data[agent]["infos"]["pick_failure"] = float(0.0)
                         
                     else:
-                        # if 'heuristic_agent' not in agent:
+                        # if 'driver_agent' not in agent:
                         step_data.add_reward(self.reward_illegal_action, agent) # illegal pick
                         step_data[agent]["infos"]["pick_success"] = float(0.0)
                         step_data[agent]["infos"]["pick_failure"] = -float(1.0)
@@ -559,7 +559,7 @@ class WarehouseGame (games.GameBase_multiagent):
             
         elif step_data.steps_exceeded(self.max_steps):
             for agent in self.agent_ids:
-                # if 'heuristic_agent' not in agent:
+                # if 'driver_agent' not in agent:
                 #     # step_data.add_reward(-1.0, agent)
                 step_data[agent]["infos"]["steps_exceeded"] = -float(1.0)
                 step_data[agent]['terminated'] = True
