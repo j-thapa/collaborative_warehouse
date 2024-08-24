@@ -36,7 +36,7 @@ Actions_list = ["left", "right", "up", "down", "pick/drop", "do_nothing"]
 
 class WarehouseMultiEnv(MultiAgentEnv):
 
-    def __init__(self, batch_size=None, 
+    def __init__(self, 
                  seed=42,
                  pair_agents=1,
                  num_objects=1,
@@ -49,6 +49,36 @@ class WarehouseMultiEnv(MultiAgentEnv):
                  obstacle=False
                  ):
       
+            """
+    Initialize the simulation environment with configurable settings.
+
+    Parameters:
+        seed (int): Seed for random number generation to ensure reproducibility. 
+                    Helps in debugging by maintaining consistent behavior.
+        pair_agents (int): Specifies the number of pairs of agents in the environment.
+                           Each pair of agents can interact within the same space.
+        num_objects (int): Defines the number of objects placed within the environment.
+                           Objects can be interacted with by agents.
+        grid_shape (tuple): Specifies the dimensions of the grid that forms the environment.
+                            Tuple format is (width, height).
+        partial_observation (bool): When set to True, agents receive only a partial view
+                                    of the entire environment, simulating limited visibility.
+        max_steps (int): Sets the limit on the number of steps an agent can take in one episode.
+                         This is used to prevent infinite loops and to benchmark performance.
+        deterministic (bool): Determines whether the environment operates in a deterministic
+                              manner. When False, introduces randomness in agent actions or
+                              environment responses, enhancing complexity.
+        image_observation (bool): If set to True, the agent's observations are returned as images,
+                                  typically used in vision-based learning models.
+        action_masking (bool): Enables the prevention of invalid actions by the agent, typically
+                               used to simplify the learning problem by reducing the space of
+                               possible actions.
+        obstacle (bool): Configures the environment to include obstacles that agents must avoid,
+                         increasing navigation challenges.
+
+    This constructor method sets up the environment based on the parameters provided, which affect
+    the dynamics and operational conditions of the simulation.
+    """
 
 
         self.seed = seed
@@ -77,7 +107,7 @@ class WarehouseMultiEnv(MultiAgentEnv):
             if num % 2 == 0 :
                 self._agent_ids.append(f'agent_{num}') #add robot agent
             else:
-                self._agent_ids.append(f"heuristic_agent_{num}") #add robot agent pair heuristic agent
+                self._agent_ids.append(f"driver_agent_{num}") #add robot agent pair heuristic agent
 
    
 
@@ -491,7 +521,7 @@ class WarehouseMultiEnv(MultiAgentEnv):
 
             #now if object is composite; have to take care of both driven agent and objects
     
-            elif agent_obj.kind == ItemKind.H_AGENT_ATTACHED: #composite object
+            elif agent_obj.kind == ItemKind.D_AGENT_ATTACHED: #composite object
             
                 picked_obj = agent_obj.picked_object
                 driven_agent = [x for x in picked_obj.carriers if x != agent_obj][0]
