@@ -16,6 +16,7 @@
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 
+![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 
 # Environment Description
