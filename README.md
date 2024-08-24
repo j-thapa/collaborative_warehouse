@@ -156,6 +156,27 @@ env.close()
 
 ```
 
+## Citation
+
+If you use this code, please cite it as follows:
+
+```bibtex
+@article{HAMMERLE2024388,
+title = {Applying grid world based reinforcement learning to real world collaborative transport},
+journal = {Procedia Computer Science},
+volume = {232},
+pages = {388-396},
+year = {2024},
+note = {5th International Conference on Industry 4.0 and Smart Manufacturing (ISM 2023)},
+issn = {1877-0509},
+doi = {https://doi.org/10.1016/j.procs.2024.01.038},
+url = {https://www.sciencedirect.com/science/article/pii/S1877050924000383},
+author = {Alexander Hämmerle and Christoph Heindl and Gernot Stübl and Jenish Thapa and Edoardo Lamon and Andreas Pichler},
+keywords = {collaborative transportation, reinforcement learning, robot navigation},
+abstract = {Motivated by transportation tasks on construction sites, this contribution deals with an AI-driven approach to human-robot collaborative transportation. An essential part of the considered problem is navigating the robot to the object to be transported, in the presence of other moving items like the human moving to the object. Robot navigation is tackled with reinforcement learning, and the impact of randomness in the other moving items’ behaviour on the robot's training performance is investigated. Results show that the move failure rate of the trained robot policy increases, when the behavioural patterns in the human's movements are disturbed by randomness. On the other hand, when both human and robot are connected to the object, the navigation problem is delegated to the human, which guides the compound human-object-robot to the goal location.}
+}
+```
+
 
 
 
